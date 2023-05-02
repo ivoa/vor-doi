@@ -1,0 +1,29 @@
+This directory contains some artifacts dealing with a bridge between
+Registry and the DOI system.
+
+This is currently used within GAVO's voidoi service,
+http://dc.g-vo.org/voidoi/q/ui.  It should be generic enough for other
+projects having to deal with the translation of VOResource do datacite
+metadata, though.
+
+
+First, there's vor-to-doi.xslt, which is a fairly complete mapping from
+VOResource to the datacite core.  There's an example record to exercise
+this in vor-example.xml.  With xsltproc, the following should work to
+produce a datacite record:
+
+	xsltproc --stringparam doi_for_record 10.5072/testrec \
+		vor-to-doi.xslt vor-example.xml
+
+Second, there's a piece of python, oai2datacite.py that lets you run this on a
+set of records in a ivo_vor OAI-PMH response.  In particular, the script
+will generate DOIs (WARNING: currently, no collision detection performed).
+There's a sample input for that, too, oai-example.xml.
+
+The command line
+
+	python oai2datacite.py oai-example.xml
+
+will (if you have python-lxml installed) produce a number of .datacite
+files containing datacite records.
+
