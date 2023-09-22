@@ -8,7 +8,7 @@
     xmlns:oai="http://www.openarchives.org/OAI/2.0/"
     xmlns:d="http://datacite.org/schema/kernel-4"
     version="1.0">
-   
+
     <!-- ############################################## Global behaviour -->
 
     <xsl:output method="xml"/>
@@ -17,8 +17,8 @@
     <xsl:template match="text()"/>
 
     <xsl:template match="ri:Resource">
-      <d:resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:schemaLocation="http://datacite.org/schema/kernel-4 
+      <d:resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://datacite.org/schema/kernel-4
           http://schema.datacite.org/meta/kernel-4/metadata.xsd">
         <d:identifier identifierType="DOI">
             <xsl:value-of select="$doi_for_record"/>
@@ -106,6 +106,9 @@
       </d:description>
     </xsl:template>
 
+    <!-- ignore everything complex in TAPRegExt -->
+    <xsl:template match="language"/>
+
     <xsl:template match="relatedResource[@ivo-id]">
         <xsl:param name="relationshipType"/>
         <xsl:if test="$relationshipType!=''">
@@ -181,19 +184,19 @@
           'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
           'abcdefghijklmnopqrstuvwxyz')"/>
         <xsl:choose>
-          <xsl:when 
+          <xsl:when
             test="$normalizedID='ivo://ivoa.net/std/conesearch'"
             >AstroObjects</xsl:when>
-          <xsl:when 
+          <xsl:when
             test="$normalizedID='ivo://ivoa.net/std/sia'"
             >AstroImage</xsl:when>
-          <xsl:when 
+          <xsl:when
             test="$normalizedID='ivo://ivoa.net/std/ssa'"
             >Spectrum</xsl:when>
-          <xsl:when 
+          <xsl:when
             test="$normalizedID='ivo://ivoa.net/std/slap'"
             >SpectralLines</xsl:when>
-          <xsl:when 
+          <xsl:when
             test="$normalizedID='ivo://ivoa.net/std/tap'"
             >AstroData</xsl:when>
         </xsl:choose>

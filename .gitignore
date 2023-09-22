@@ -1,3 +1,4 @@
 .svn
 __pycache__
 *.datacite
+*.swp
