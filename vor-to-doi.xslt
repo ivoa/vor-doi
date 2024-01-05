@@ -21,7 +21,14 @@
         xsi:schemaLocation="http://datacite.org/schema/kernel-4
           http://schema.datacite.org/meta/kernel-4/metadata.xsd">
         <d:identifier identifierType="DOI">
-            <xsl:value-of select="$doi_for_record"/>
+          <xsl:choose>
+            <xsl:when test="starts-with(altIdentifier[1], 'doi:')">
+              <xsl:value-of select="substring-after(altIdentifier, 'doi:')"/>
+            </xsl:when>
+            <xsl:when test="$doi_for_record">
+              <xsl:value-of select="$doi_for_record"/>
+            </xsl:when>
+          </xsl:choose>
         </d:identifier>
         <d:creators>
           <xsl:apply-templates select="curation/creator"/>

@@ -7,18 +7,26 @@ projects having to deal with the translation of VOResource do datacite
 metadata, though.
 
 
-First, there's vor-to-doi.xslt, which is a fairly complete mapping from
-VOResource to the datacite core.  There's an example record to exercise
+First, there is vor-to-doi.xslt, which is a fairly complete mapping from
+VOResource to the datacite core.  There is an example record to exercise
 this in vor-example.xml.  With xsltproc, the following should work to
 produce a datacite record:
 
-	xsltproc --stringparam doi_for_record 10.5072/testrec \
-		vor-to-doi.xslt vor-example.xml
+	xsltproc vor-to-doi.xslt vor-example.xml
 
-Second, there's a piece of python, oai2datacite.py that lets you run this on a
+In this special case, the test record already as a DOI in the VOResource
+1.1 altIdentifier element.  If your VOResource record does not already
+contain a DOI, you can pass one in with the doi_for_record string
+parameter.  In xsltproc, this could look like this::
+
+	xsltproc --stringparam doi_for_record 10.5072/testrec \
+    vor-to-doi.xslt vor-example.xml
+
+Second, there is a piece of python, oai2datacite.py that lets you run
+the stylesheet  on a
 set of records in a ivo_vor OAI-PMH response.  In particular, the script
 will generate DOIs (WARNING: currently, no collision detection performed).
-There's a sample input for that, too, oai-example.xml.
+There is some sample input for that, too, oai-example.xml.
 
 The command line
 
@@ -26,4 +34,3 @@ The command line
 
 will (if you have python-lxml installed) produce a number of .datacite
 files containing datacite records.
-
