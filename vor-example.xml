@@ -45,8 +45,19 @@ together with the master catalog that objects were identified against.</descript
         <referenceURL>http://dc.zah.uni-heidelberg.de/arigfh/q/cone/info</referenceURL>
         <relationship>
           <relationshipType>served-by</relationshipType>
-          <relatedResource ivo-id="ivo://org.gavo.dc/tap" altIdentifier="doi:invalid">GAVO Data Center TAP service</relatedResource>
+          <relatedResource ivo-id="ivo://org.gavo.dc/tap">GAVO Data Center TAP service</relatedResource>
         </relationship>
+        <relationship>
+          <relationshipType>IsSupplementTo</relationshipType>
+          <relatedResource altIdentifier="doi:10.21938/8ndTne3ode_RC4dOw3oAsQ"
+          	>Katkat, the catalogue of catalogues</relatedResource>
+          <relatedResource>Ristenpart et al: TBD</relatedResource>
+        </relationship>
+        <relationship>
+          <relationshipType>mirror-of</relationshipType>
+          <relatedResource ivo-id="ivo://gavo.aip.de/arigfh/q/cone"
+          	>ARIGFH Potsam</relatedResource>
+				</relationship>
       </content>
       <capability standardID="ivo://ivoa.net/std/ConeSearch" xsi:type="cs:ConeSearch">
         <interface role="std" xsi:type="vs:ParamHTTP">

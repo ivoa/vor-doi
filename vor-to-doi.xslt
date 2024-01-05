@@ -128,18 +128,65 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="relationship">
-        <xsl:apply-templates>
-            <xsl:with-param name="relationshipType">
-                <xsl:choose>
-                    <xsl:when test="relationshipType='mirror-of'"
-                        >IsIdenticalTo</xsl:when>
-                    <xsl:when test="relationshipType='derived-from'"
-                        >IsDerivedFrom</xsl:when>
-                    <xsl:otherwise/>
-                </xsl:choose>
-            </xsl:with-param>
-        </xsl:apply-templates>
+    <xsl:template match="relatedResource[@altIdentifier]">
+        <xsl:param name="relationshipType"/>
+        <xsl:if test="$relationshipType!=''">
+            <d:relatedIdentifier relatedIdentifierType="DOI">
+                <xsl:attribute name="relationType">
+                    <xsl:value-of select="$relationshipType"/>
+                </xsl:attribute>
+                <xsl:value-of select="@altIdentifier"/>
+            </d:relatedIdentifier>
+        </xsl:if>
+    </xsl:template>
+
+    <!-- Translate three VOResource 1.0 relation types; note that
+      IsServedBy isn't supported by DataCite yet, but it's so important
+      I'm willing to produce broken records.
+      -->
+    <xsl:template match="relationship[relationshipType='mirror-of']">
+      <xsl:apply-templates>
+          <xsl:with-param name="relationshipType"
+            >IsIdenticalTo</xsl:with-param>>
+      </xsl:apply-templates>
+    </xsl:template>
+
+    <xsl:template match="relationship[relationshipType='derived-from']">
+      <xsl:apply-templates>
+        <xsl:with-param name="relationshipType"
+          >IsDerivedFrom</xsl:with-param>>
+      </xsl:apply-templates>
+    </xsl:template>
+
+    <xsl:template match="relationship[relationshipType='served-by']">
+      <xsl:apply-templates>
+        <xsl:with-param name="relationshipType"
+          >IsServedBy</xsl:with-param>>
+      </xsl:apply-templates>
+    </xsl:template>
+
+    <!-- pull through RDF relationship_type (it would be cool to
+      take these from http://www.ivoa.net/rdf/voresource/relationship_type
+      by program -->
+    <xsl:template match="relationship[relationshipType='Cites']
+      | relationship[relationshipType='Continues']
+      | relationship[relationshipType='HasPart']
+      | relationship[relationshipType='IsContinuedBy']
+      | relationship[relationshipType='IsDerivedFrom']
+      | relationship[relationshipType='IsIdenticalTo']
+      | relationship[relationshipType='IsNewVersionOf']
+      | relationship[relationshipType='IsPartOf']
+      | relationship[relationshipType='isPreviousVersionOf']
+      | relationship[relationshipType='IsServedBy']
+      | relationship[relationshipType='IsServiceFor']
+      | relationship[relationshipType='IsSourceOf']
+      | relationship[relationshipType='IsSupplementTo']
+      | relationship[relationshipType='IsSupplementedBy']
+      ">
+      <xsl:apply-templates>
+        <xsl:with-param name="relationshipType"
+          ><xsl:value-of select="relationshipType"/></xsl:with-param>>
+      </xsl:apply-templates>
     </xsl:template>
 
     <xsl:template match="curation/contact">
