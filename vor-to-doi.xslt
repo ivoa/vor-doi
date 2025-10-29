@@ -140,9 +140,9 @@
         </xsl:if>
     </xsl:template>
 
-    <!-- Translate three VOResource 1.0 relation types; note that
-      IsServedBy isn't supported by DataCite yet, but it's so important
-      I'm willing to produce broken records.
+    <!-- Translate three VOResource 1.0 relation types; served-by
+      is commented out for now because DataCite doesn't understand
+      IsServedBy.
       -->
     <xsl:template match="relationship[relationshipType='mirror-of']">
       <xsl:apply-templates>
@@ -158,16 +158,18 @@
       </xsl:apply-templates>
     </xsl:template>
 
+<!--
     <xsl:template match="relationship[relationshipType='served-by']">
       <xsl:apply-templates>
         <xsl:with-param name="relationshipType"
           >IsServedBy</xsl:with-param>>
       </xsl:apply-templates>
-    </xsl:template>
+    </xsl:template> -->
 
     <!-- pull through RDF relationship_type (it would be cool to
       take these from http://www.ivoa.net/rdf/voresource/relationship_type
-      by program -->
+      by program).  IsServiceFor and IsServedBy are missing here
+      because DataCite regrettably doesn't know about them. -->
     <xsl:template match="relationship[relationshipType='Cites']
       | relationship[relationshipType='Continues']
       | relationship[relationshipType='HasPart']
@@ -177,8 +179,6 @@
       | relationship[relationshipType='IsNewVersionOf']
       | relationship[relationshipType='IsPartOf']
       | relationship[relationshipType='isPreviousVersionOf']
-      | relationship[relationshipType='IsServedBy']
-      | relationship[relationshipType='IsServiceFor']
       | relationship[relationshipType='IsSourceOf']
       | relationship[relationshipType='IsSupplementTo']
       | relationship[relationshipType='IsSupplementedBy']
